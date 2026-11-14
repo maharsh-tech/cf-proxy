@@ -1,4 +1,5 @@
 import http from "node:http";
+import { Readable } from "node:stream";
 
 const PORT = process.env.PORT || 3000;
 const AUTH_KEY = process.env.PROXY_KEY || null;
@@ -84,8 +85,11 @@ const server = http.createServer(async (req, res) => {
       "X-Upstream-Status": String(upstreamResp.status),
     });
 
-    const bodyBuffer = await upstreamResp.arrayBuffer();
-    return res.end(Buffer.from(bodyBuffer));
+    if (upstreamResp.body) {
+      Readable.fromWeb(upstreamResp.body).pipe(res);
+    } else {
+      res.end();
+    }
   } catch (err) {
     res.writeHead(502, { ...CORS_HEADERS, "Content-Type": "application/json" });
     return res.end(JSON.stringify({
