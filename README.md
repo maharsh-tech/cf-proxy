@@ -1,9 +1,10 @@
-# CF-Proxy (Ultra-Fast Rust & Node.js Relay)
+# CF-Proxy (Ultra-Fast Node.js 20 Streaming Relay)
 
-High-performance, low-latency HTTP relay proxy designed to eliminate Cloudflare-to-Cloudflare Worker blocking (Cloudflare Error 1106).
+High-performance, low-latency HTTP relay proxy designed to eliminate Cloudflare-to-Cloudflare Worker blocking (Cloudflare Error 1106 / Turnstile challenge).
 
-- **Rust (Default with Dockerfile)**: Built on **Axum 0.7** + **Tokio** + **Reqwest** with HTTP connection pooling, keep-alive reuse, and zero-buffering stream piping. Runs in an ultra-lean Alpine container (~15MB image, <10MB RAM).
-- **Node.js (Alternative)**: Native Node.js `server.js` with streaming pipe and zero dependencies.
+- **Runtime**: Native Node.js 20+ (Zero dependencies, instant deployment)
+- **Streaming**: Native `Readable.fromWeb(body).pipe(res)` for immediate chunk streaming without memory buffering.
+- **Headers**: Spoofs realistic Chrome client hints, referer, and cookies to bypass Cloudflare Bot Management.
 
 ---
 
@@ -11,8 +12,10 @@ High-performance, low-latency HTTP relay proxy designed to eliminate Cloudflare-
 
 1. Choose **Web Service** in Voroa.
 2. Select your repository: `maharsh-tech/cf-proxy`.
-3. Voroa automatically detects the `Dockerfile` and builds the high-speed Rust binary.
-   - **Port**: `3000` (or let Voroa inject `$PORT`)
+3. Configuration:
+   - **Runtime**: `Node.js 20`
+   - **Start Command**: `npm start` (or `node server.js`)
+   - **Port**: `3000` (or leave default `$PORT`)
 4. Copy the public URL provided by Voroa (e.g. `https://cf-proxy.your-app.voroa.app`).
 
 ---
