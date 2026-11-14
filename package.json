@@ -1,0 +1,13 @@
+{
+  "name": "stream-relay-proxy",
+  "version": "1.0.0",
+  "description": "Ultra-lightweight HTTP proxy for Cloudflare Worker upstream requests",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
